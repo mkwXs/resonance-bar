@@ -1,5 +1,7 @@
 # 鸣潮 · 共鸣调酒室
 
+**下载应用：** [Windows EXE](https://github.com/mkwXs/resonance-bar/releases/download/v1.1.0/ResonanceBar-1.1.0-Windows-x64.exe) · [Android APK](https://github.com/mkwXs/resonance-bar/releases/download/v1.1.0/ResonanceBar-1.1.0-Android.apk) · [完整发布页与源码](https://github.com/mkwXs/resonance-bar/releases/tag/v1.1.0)
+
 ## Windows / Android 应用（v1.1.0）
 
 现在同时提供独立的 Windows EXE 和离线 Android APK，保留原网站全部配方、图片编辑、搜索、采购预算和 JSON 导入导出功能。
