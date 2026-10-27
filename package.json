@@ -1,0 +1,49 @@
+{
+  "name": "resonance-bar",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "鸣潮角色主题调酒档案 · 本地版",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test",
+    "check": "node --check server.mjs && node --check public/app.js && node --check public/platform.js && node --check desktop/main.mjs",
+    "desktop": "electron .",
+    "build:windows": "electron-builder --win portable --x64",
+    "build:android": "python scripts/build_android.py"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
+  },
+  "main": "desktop/main.mjs",
+  "author": "mkwXs",
+  "build": {
+    "appId": "com.resonancebar.desktop",
+    "productName": "ResonanceBar",
+    "artifactName": "ResonanceBar-${version}-Windows-${arch}.${ext}",
+    "directories": {
+      "output": "release/windows"
+    },
+    "files": [
+      "desktop/**",
+      "public/**",
+      "server.mjs",
+      "store.mjs",
+      "seed.json",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "ResonanceBar-${version}-Windows-x64.exe"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b151d"><meta name="description" content="鸣潮角色主题调酒档案。查询、编辑、备份配方，汇总居家采购预算。"><title>鸣潮 · 共鸣调酒室</title><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/styles.css"><script type="module" src="/app.js"></script></head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#recipes"><span class="brand-icon">⌁</span><span>共鸣调酒室<small>RESONANCE BAR</small></span></a>
+    <span class="nav-caption">我的调酒工作台</span>
+    <nav aria-label="主导航"><a href="#recipes" id="nav-recipes"><span>◈</span> 角色酒单 <b id="nav-count">08</b></a><a href="#shopping" id="nav-shopping"><span>▤</span> 采购与预算</a></nav>
+    <div class="sidebar-separator"></div><span class="nav-caption">配方资料</span>
+    <button class="nav-action" id="export"><span>↗</span> 导出 JSON 备份</button><button class="nav-action" id="import"><span>↙</span> 导入 JSON 备份</button><input type="file" id="import-file" accept=".json,application/json" hidden>
+    <div class="sidebar-bottom"><div><i class="status-dot"></i><span id="connection">正在连接本地资料</span></div><p>你的配方，你的调酒室。<br>数据保存在这台电脑上。</p><span class="edition">LOCAL EDITION / 01</span></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><span>鸣潮 <span class="slash">/</span> <span id="breadcrumb">角色调酒档案</span></span><div><span class="local-badge">◌ 本地工作台</span><button id="new-top" class="button small">＋ 新建配方</button></div></header>
+    <main id="main" tabindex="-1"><div class="loading">正在打开你的调酒档案…</div></main>
+    <footer>RESONANCE BAR <span>同人主题配方 · 非官方作品</span><span>低甜度 / 居家制作 / 少量共用原料</span></footer>
+  </div>
+  <dialog id="detail-dialog" class="detail-dialog" aria-label="调酒配方详情"></dialog>
+  <dialog id="edit-dialog" class="edit-dialog" aria-label="编辑调酒配方"></dialog>
+  <dialog id="confirm-dialog" class="confirm-dialog" aria-label="确认操作"></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body></html>

@@ -1,0 +1,49 @@
+name: Build and release apps
+on:
+  push:
+    branches: [main]
+    paths: ['public/**', 'desktop/**', 'server.mjs', 'store.mjs', 'seed.json', 'package*.json', 'downloads/**', '.github/workflows/release.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: resonance-release
+  cancel-in-progress: false
+jobs:
+  windows-release:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Install build dependencies
+        run: |
+          npm ci --ignore-scripts
+          node node_modules/electron/install.js
+      - name: Check and test
+        run: |
+          npm run check
+          npm test
+      - name: Build Windows EXE
+        run: npm run build:windows -- --config.electronDist=node_modules/electron/dist
+      - name: Publish EXE and locally signed Android APK
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          $tag = "v$version"
+          $source = "release/ResonanceBar-$version-Source.zip"
+          git archive --format=zip --output=$source HEAD
+          $files = @("release/windows/ResonanceBar-$version-Windows-x64.exe", "downloads/ResonanceBar-$version-Android.apk", $source)
+          $lines = foreach ($file in $files) { $hash = (Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLower(); "$hash  $([System.IO.Path]::GetFileName($file))" }
+          $lines | Set-Content -LiteralPath release/SHA256SUMS.txt -Encoding ascii
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output "Release $tag already exists; existing assets are preserved. Bump package.json version for a new release."
+            exit 0
+          }
+          gh release create $tag @files release/SHA256SUMS.txt --target $env:GITHUB_SHA --title "共鸣调酒室 $tag" --notes-file "docs/release-$tag.md"
